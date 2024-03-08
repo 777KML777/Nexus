@@ -65,7 +65,7 @@ fun ScreenLogin(navController: NavController) {
                 label = {
                     Text(
                         //modifier = Modifier.offset(y = (-20).dp),
-                        text = "Email"
+                        text = "Emai"
                     )
                 },
                 modifier = Modifier
