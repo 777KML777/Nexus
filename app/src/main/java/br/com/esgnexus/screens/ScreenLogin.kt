@@ -72,7 +72,7 @@ fun ScreenLogin(navController: NavController) {
                     .fillMaxWidth()
                     //.padding(horizontal =  32.dp)
                     .padding(
-                        start = 16.dp,
+                        start = 18.dp,
                         top = 20.dp,
                         end = 16.dp,
                         bottom = 0.dp
