@@ -27,12 +27,13 @@ fun RadioButtonComponent () {
         selected = false,
         onClick = {},
         colors = RadioButtonDefaults.colors(
-            selectedColor = Color.Green,
-            unselectedColor = Color.Black
+            selectedColor = Color(0xff2A933E),
+            unselectedColor = Color(0xff2A933E)
         )
       )
       Text(
-          text = "Manter-me conectado"
+          text = "Manter-me conectado",
+          color = Color(0xff2A933E)
       )
   }
 }
