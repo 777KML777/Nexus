@@ -9,14 +9,25 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -27,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -47,45 +59,101 @@ fun ScreenHome(navController: NavController) {
                 .fillMaxHeight()
         ) {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
             ) {
-                CompanyTitle()
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(horizontal = 20.dp)
-                ){
-                    MainHeader()
-                    Spacer(modifier = Modifier.size(size = 20.dp))
-                    RecentPosts()
-                    Spacer(modifier = Modifier.size(size = 20.dp))
-                    CompanyStatistics()
+                    modifier = Modifier
+                        .fillMaxHeight()
+                ) {
+                    CompanyTitle()
+                    Spacer(modifier = Modifier.size(size = 35.dp))
+                    ButtonOptions()
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.padding(horizontal = 35.dp)
+                    ) {
+                        MainHeader()
+                        Spacer(modifier = Modifier.size(size = 35.dp))
+                        RecentPosts()
+                        Spacer(modifier = Modifier.size(size = 35.dp))
+                        //CompanyStatistics()
+
+
+                    }
+                    Column (
+                        verticalArrangement = Arrangement.Bottom,
+                        modifier = Modifier
+                            .fillMaxHeight()
+                    ) {
+                        Rodape()
+                    }
+
                 }
             }
         }
-
     }
 }
 
 @Composable
 fun CompanyTitle(){
-    Text(
-        text = "Plataforma",
-        color = Color.White,
-        fontSize = 24.sp,
+    Row(
         modifier = Modifier
+            .background(Color(0xff2A933E))
             .fillMaxWidth()
-            .background(color = Color(0xff0D6511))
-            .padding(all = 10.dp)
-    )
+    ){
+        Image(
+            painter = painterResource(id = R.drawable.logohome),
+            contentDescription = "Header",
+            modifier = Modifier
+                .size(width = 100.dp, height = 35.dp)
+                .align(Alignment.CenterVertically)
+
+        )
+        // Forgot Your Password
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                // .padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 0.dp)
+                .wrapContentWidth(Alignment.End, true),
+            colors = ButtonDefaults.buttonColors(Color.Unspecified),
+
+            onClick = {
+
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Default.Notifications,
+                contentDescription = "",
+                tint = Color(255, 255, 255)
+            )
+        }
+    }
+
 }
 
 @Composable
 fun MainHeader(){
+    Column(
+
+    )   {
         Image(
-            painter = painterResource(id = R.drawable.imc),
+            painter = painterResource(id = R.drawable.grafico),
             contentDescription = "Header",
-            modifier = Modifier.size(width = 350.dp, height = 230.dp)
+            modifier = Modifier.size(width = 380.dp, height = 300.dp)
         )
+
+        Text(
+            text = "Histórico",
+            color = Color(0xff07510A),
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
+            textDecoration = TextDecoration.Underline,
+            modifier = Modifier.align(Alignment.End)
+        )
+    }
+
 }
 
 @Composable
@@ -105,7 +173,9 @@ fun SectionTitle(title: String, option: String){
             color = Color(0xff07510A),
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
-            textDecoration = TextDecoration.Underline
+            textDecoration = TextDecoration.Underline,
+            modifier = Modifier
+
         )
     }
 }
@@ -115,9 +185,10 @@ fun RecentPostsCard(){
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Card(
             modifier = Modifier
-            .size(width = 80.dp, height = 130.dp)
-            .clip(shape = RoundedCornerShape(0.5.dp)
-            )
+                .size(width = 80.dp, height = 130.dp)
+                .clip(
+                    shape = RoundedCornerShape(0.5.dp)
+                )
         ) {
         }
         Card(
@@ -201,10 +272,220 @@ fun CompanyStatistics(){
     }
 }
 
+@Composable
+fun ButtonOptions () {
+    Row(
+        horizontalArrangement = Arrangement.SpaceAround,
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        // Card 1
+        Card(
+            modifier = Modifier
+                .background(Color.White)
+                .size(width = 100.dp, height = 50.dp)
+                .clip(shape = RoundedCornerShape(0.5.dp)),
+            border = CardDefaults.outlinedCardBorder(
+                enabled = true,
+            )
+
+
+            //.border(1.dp, Color(0xff2A933E))
+
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .background(Color.White)
+                    .fillMaxSize()
+            ) {
+
+                Icon(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    imageVector = Icons.Default.Star,
+                    contentDescription = "",
+                    tint = Color(0, 0, 0)
+                )
+
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = "Benefícios",
+                    color = Color(0xff07510A),
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+
+                    )
+            }
+        }
+
+        //Card 2
+        Card(
+            modifier = Modifier
+                .background(Color.White)
+                .size(width = 100.dp, height = 50.dp)
+                .clip(shape = RoundedCornerShape(0.5.dp)),
+            border = CardDefaults.outlinedCardBorder(
+                enabled = true,
+            )
+
+
+            //.border(1.dp, Color(0xff2A933E))
+
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .background(Color.White)
+                    .fillMaxSize()
+            ) {
+
+                Icon(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    imageVector = Icons.Default.Star,
+                    contentDescription = "",
+                    tint = Color(0, 0, 0)
+                )
+
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = "Editar Equipe",
+                    color = Color(0xff07510A),
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+
+                    )
+            }
+        }
+
+        // Card 3
+        Card(
+            modifier = Modifier
+                .background(Color.White)
+                .size(width = 100.dp, height = 50.dp)
+                .clip(shape = RoundedCornerShape(0.5.dp)),
+            border = CardDefaults.outlinedCardBorder(
+                enabled = true,
+            )
+
+
+            //.border(1.dp, Color(0xff2A933E))
+
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .background(Color.White)
+                    .fillMaxSize()
+            ) {
+
+                Icon(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    imageVector = Icons.Default.Star,
+                    contentDescription = "",
+                    tint = Color(0, 0, 0)
+                )
+
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = "Feedbacks",
+                    color = Color(0xff07510A),
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+
+                    )
+            }
+        }
+
+
+        //Card 4
+        Card(
+            modifier = Modifier
+                .background(Color.White)
+                .size(width = 100.dp, height = 50.dp)
+                .clip(shape = RoundedCornerShape(0.5.dp)),
+            border = CardDefaults.outlinedCardBorder(
+                enabled = true,
+            )
+
+
+            //.border(1.dp, Color(0xff2A933E))
+
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .background(Color.White)
+                    .fillMaxSize()
+            ) {
+
+                Icon(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    imageVector = Icons.Default.Star,
+                    contentDescription = "",
+                    tint = Color(0, 0, 0)
+                )
+
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = "Ver Pontuações",
+                    color = Color(0xff07510A),
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+
+                    )
+            }
+        }
+    }
+}
+
 @Preview(showSystemUi = true)
 @Composable
 fun ScreenHomePreview(){
     val navController = rememberNavController()
     ScreenHome(navController)
+}
+
+@Composable
+fun Rodape () {
+    Row(
+
+        horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .background(Color(0xffD9D9D9))
+            .fillMaxWidth()
+            .height(63.dp)
+
+
+    ) {
+        Icon(
+            imageVector = Icons.Default.Home,
+            contentDescription = "",
+            tint = Color(0xff61646B)
+        )
+
+        Icon(
+            imageVector = Icons.Default.Star,
+            contentDescription = "",
+            tint = Color(0xff61646B)
+        )
+        Icon(
+            imageVector = Icons.Default.AddCircle,
+            contentDescription = "",
+            tint = Color(0xff61646B)
+        )
+        Icon(
+            imageVector = Icons.Default.Star,
+            contentDescription = "",
+            tint = Color(0xff61646B)
+        )
+
+        Icon(
+            imageVector = Icons.Default.Person,
+            contentDescription = "",
+            tint = Color(0xff61646B)
+        )
+
+        }
 }
 

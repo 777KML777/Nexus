@@ -133,7 +133,7 @@ fun ScreenLogin(navController: NavController) {
                         bottom = 0.dp
                     ),
                 onClick = {
-
+                    navController.navigate("ScreenHome")
                 },
                 shape = RectangleShape
 
@@ -154,7 +154,7 @@ fun ScreenLogin(navController: NavController) {
                         bottom = 0.dp
                     ),
                 onClick = {
-
+                    navController.navigate("ScreenHome")
                 },
                 //shape = RectangleShape,
                 border = ButtonDefaults.outlinedButtonBorder
@@ -175,7 +175,7 @@ fun ScreenLogin(navController: NavController) {
                         bottom = 0.dp
                     ),
                 onClick = {
-
+                    navController.navigate("ScreenHome")
                 }
             ) {
                 Text(
