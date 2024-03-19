@@ -1,20 +1,29 @@
 package br.com.esgnexus.screens
 
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,10 +31,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import br.com.esgnexus.R
 import br.com.esgnexus.components.RadioButtonComponent
 import br.com.esgnexus.ui.theme.WorkSans
 
@@ -48,12 +59,10 @@ fun ScreenLogin(navController: NavController) {
                 .offset(y = (-80).dp)
                 //.fillMaxSize()
         ) {
-            Text(
-                color = Color.Black,
-                fontFamily = WorkSans,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-                text = "NEXUS",
+            Image(
+                painter = painterResource(id = R.drawable.logologin),
+                contentDescription = "Header",
+                modifier = Modifier.size(width = 160.dp, height = 50.dp)
             )
 
             var email = remember {
@@ -76,7 +85,13 @@ fun ScreenLogin(navController: NavController) {
                         top = 20.dp,
                         end = 16.dp,
                         bottom = 0.dp
-                    )
+                    ),
+
+                colors = OutlinedTextFieldDefaults.colors(
+                    unfocusedBorderColor = Color(0xff2A933E),
+                    focusedBorderColor = Color(0xff2A933E)
+                )
+
             )
 
             OutlinedTextField(
@@ -92,7 +107,12 @@ fun ScreenLogin(navController: NavController) {
                         top = 10.dp,
                         end = 16.dp,
                         bottom = 0.dp
-                    )
+                    ),
+
+                colors = OutlinedTextFieldDefaults.colors(
+                    unfocusedBorderColor = Color(0xff2A933E),
+                    focusedBorderColor = Color(0xff2A933E)
+                )
             )
 
             // Forgot Your Password
@@ -113,7 +133,9 @@ fun ScreenLogin(navController: NavController) {
                 }
             ) {
                 Text(
-                    text = "Esqueceu a senha?"
+                    text = "Esqueceu a senha?",
+                    color = Color(0xff2A933E)
+
                 )
             }
 
@@ -133,13 +155,17 @@ fun ScreenLogin(navController: NavController) {
                         bottom = 0.dp
                     ),
                 onClick = {
-
+                    navController.navigate("ScreenHome")
                 },
-                shape = RectangleShape
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.White,
+                    containerColor = Color(0xff2A933E)
+                )
 
             ) {
                 Text(
-                    text = "Entrar"
+                    text = "Entrar",
+                    color = Color.White
                 )
             }
 
@@ -154,10 +180,13 @@ fun ScreenLogin(navController: NavController) {
                         bottom = 0.dp
                     ),
                 onClick = {
-
+                    navController.navigate("ScreenHome")
                 },
-                //shape = RectangleShape,
-                border = ButtonDefaults.outlinedButtonBorder
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color(0xff2A933E),
+                    containerColor = Color.White
+                ),
+                border = BorderStroke(1.dp, Color(0xff2A933E))
             ) {
                 Text(
                     text = "Entrar com uma conta Google"
@@ -175,15 +204,20 @@ fun ScreenLogin(navController: NavController) {
                         bottom = 0.dp
                     ),
                 onClick = {
-
-                }
+                    navController.navigate("ScreenHome")
+                },
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color(0xff2A933E),
+                    containerColor = Color.White
+                ),
+                border = BorderStroke(1.dp, Color(0xff2A933E))
             ) {
                 Text(
-                    text = "Entrar com uma Email"
+                    text = "Entrar com um Email"
                 )
             }
 
-            Button(
+            TextButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     //.padding(horizontal =  32.dp)
@@ -195,15 +229,45 @@ fun ScreenLogin(navController: NavController) {
                     ),
                 onClick = {
 
-                }
+                },
+
             ) {
                 Text(
-                    text = "Ainda não possui cadastro?"
+                    text = "Ainda não possui cadastro?",
+                    color = Color(0xff2A933E)
                 )
             }
         }
     }
 }
+
+@Composable
+fun CompanyTitleLogin(){
+    Row(
+        modifier = Modifier
+            .background(Color(0xff2A933E))
+            .fillMaxWidth()
+    ){
+               // Forgot Your Password
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                // .padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 0.dp)
+                .wrapContentWidth(Alignment.End, true),
+            colors = ButtonDefaults.buttonColors(
+                Color(0xff07510A)
+            ),
+
+            onClick = {
+
+            }
+        ) {
+
+        }
+    }
+
+}
+
 
 // TODO
 
