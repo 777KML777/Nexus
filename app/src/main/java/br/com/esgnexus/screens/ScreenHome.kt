@@ -1,5 +1,6 @@
 package br.com.esgnexus.screens
 
+import androidx.compose.animation.expandHorizontally
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,7 +10,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,7 +31,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -112,13 +117,53 @@ fun SectionTitle(title: String, option: String){
 
 @Composable
 fun RecentPostsCard(){
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
         Card(
             modifier = Modifier
-            .size(width = 80.dp, height = 130.dp)
-            .clip(shape = RoundedCornerShape(0.5.dp)
-            )
+                .size(width = 80.dp, height = 130.dp)
+                .padding(2.dp)
+                .clip(shape = RoundedCornerShape(0.5.dp)),
+                    border = BorderStroke(width = 1.4.dp, color = Color(0xFF07510A))
+
         ) {
+            Spacer(modifier = Modifier.height(8.5.dp))
+            Image(
+                painter = painterResource(id = R.drawable.men_women),
+                contentDescription = "work Done",
+                modifier = Modifier
+                    .size(width = 61.dp, height = 35.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
+
+            Text(
+                text = "05/09",
+                modifier = Modifier.padding(start = 10.dp),
+                fontSize = 8.sp,
+                color = Color(0xFF0D6511),
+            )
+            Text(
+                modifier = Modifier.padding(10.dp, 3.dp, 7.dp, 0.dp),
+                text = "It was popularised in the 1960s with the" +
+                        " release of Letraset sheets containing Lorem",
+                fontSize = 5.sp,
+                lineHeight = 9.sp
+            )
+            Spacer(modifier = Modifier.height(5.dp))
+            Text(
+                text = "Ler mais",
+                //textAlign = TextAlign.End,
+                textAlign = TextAlign.End,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 5.dp),
+                fontSize = 4.sp,
+                fontStyle = FontStyle.Italic
+
+            )
+
         }
         Card(
             modifier = Modifier
