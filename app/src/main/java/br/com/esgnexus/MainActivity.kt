@@ -27,14 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val navController = rememberNavController()
-                    NavHost(
-                        navController = navController,
-                        startDestination = "ScreenLogin"
-                    ){
-                        composable(route = "ScreenLogin") { ScreenLogin(navController) }
-                        composable(route = "ScreenHome") {ScreenHome(navController)}
-                    }
+                    Greeting()
                 }
             }
         }
@@ -43,17 +36,21 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun Greeting() {
+    val navController = rememberNavController()
+    NavHost(
+        navController = navController,
+        startDestination = "ScreenLogin"
+    ){
+        composable(route = "ScreenLogin") { ScreenLogin(navController) }
+        composable(route = "ScreenHome") {ScreenHome(navController)}
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     NexusTheme {
-        Greeting("Android")
+        Greeting()
     }
 }
