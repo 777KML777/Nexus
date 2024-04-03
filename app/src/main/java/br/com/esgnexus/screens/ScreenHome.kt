@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -65,9 +66,7 @@ fun ScreenHome(navController: NavController) {
                 .fillMaxHeight()
         ) {
 
-            var homeData = remember {
-                mutableStateOf(HomeDto(0, listOf(RecentPost("", "", "", ""))))
-            }
+
 
             ContentHome()
         }
@@ -77,6 +76,9 @@ fun ScreenHome(navController: NavController) {
 @Composable
 fun ContentHome() {
 
+    var homeData = remember {
+        mutableStateOf(HomeDto(0, listOf(RecentPost("", "", "", ""))))
+    }
     var x = HomeDto(0, listOf(RecentPost("", "", "", "")));
 
     // request to api
@@ -88,6 +90,7 @@ fun ContentHome() {
     x.enterpriseId = response.body()!!.enterpriseId
     x.recentPosts = response.body()!!.recentPosts
 
+    homeData.value = x
 
     }
 
@@ -103,14 +106,18 @@ fun ContentHome() {
 
     ){
        Text(
-           text = x.enterpriseId.toString()
+           text = homeData.value.enterpriseId.toString()
 
        )
 
+        LazyColumn {
+            items(homeData.value.recentPosts.size) {
+                Text(
+                    text = homeData.value.recentPosts[it].description
+                )
+            }
+        }
 
-        Text(
-            text = x.recentPosts.size.toString()
-        )
     }
 
 }
