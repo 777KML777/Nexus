@@ -1,6 +1,5 @@
 package br.com.esgnexus.screens
 
-import androidx.compose.animation.expandHorizontally
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,12 +15,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
@@ -35,11 +32,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -49,9 +47,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import br.com.esgnexus.R
+import br.com.esgnexus.dto.HomeDto
+import br.com.esgnexus.dto.RecentPost
+import br.com.esgnexus.services.Home.RetrofitFactoryHome
 import br.com.esgnexus.ui.theme.NexusTheme
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @Composable
 fun ScreenHome(navController: NavController) {
@@ -61,43 +64,57 @@ fun ScreenHome(navController: NavController) {
                 .fillMaxWidth()
                 .fillMaxHeight()
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxHeight()
-                ) {
-                    CompanyTitle()
-                    Spacer(modifier = Modifier.size(size = 35.dp))
-                    ButtonOptions()
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.padding(horizontal = 35.dp)
-                    ) {
-                        MainHeader()
-                        Spacer(modifier = Modifier.size(size = 35.dp))
-                        RecentPosts()
-                        Spacer(modifier = Modifier.size(size = 35.dp))
-                        //CompanyStatistics()
 
-
-                    }
-                    Column (
-                        verticalArrangement = Arrangement.Bottom,
-                        modifier = Modifier
-                            .fillMaxHeight()
-                    ) {
-                        Rodape()
-                    }
-
-                }
+            var homeData = remember {
+                mutableStateOf(HomeDto(0, listOf(RecentPost("", "", "", ""))))
             }
+
+            ContentHome()
         }
     }
 }
+
+@Composable
+fun ContentHome() {
+
+    var x = HomeDto(0, listOf(RecentPost("", "", "", "")));
+
+    // request to api
+    var request = RetrofitFactoryHome().homeServiceGetHomeData().homeData(1)
+
+    request.enqueue(object : Callback<HomeDto> {
+    override fun onResponse(call: Call<HomeDto>, response: Response<HomeDto>) {
+
+    x.enterpriseId = response.body()!!.enterpriseId
+    x.recentPosts = response.body()!!.recentPosts
+
+
+    }
+
+    override fun onFailure(call: Call<HomeDto>, t: Throwable) {
+    TODO("Not yet implemented")
+    }
+
+
+    })
+
+
+    Column (
+
+    ){
+       Text(
+           text = x.enterpriseId.toString()
+
+       )
+
+
+        Text(
+            text = x.recentPosts.size.toString()
+        )
+    }
+
+}
+
 
 @Composable
 fun CompanyTitle(){
@@ -479,11 +496,50 @@ fun ButtonOptions () {
     }
 }
 
+
+@Composable
+fun OldContent () {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxHeight()
+        ) {
+            CompanyTitle()
+            Spacer(modifier = Modifier.size(size = 35.dp))
+            ButtonOptions()
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(horizontal = 35.dp)
+            ) {
+                MainHeader()
+                Spacer(modifier = Modifier.size(size = 35.dp))
+                RecentPosts()
+                Spacer(modifier = Modifier.size(size = 35.dp))
+                //CompanyStatistics()
+
+
+            }
+            Column (
+                verticalArrangement = Arrangement.Bottom,
+                modifier = Modifier
+                    .fillMaxHeight()
+            ) {
+                Rodape()
+            }
+
+        }
+    }
+}
+
+
 @Preview(showSystemUi = true)
 @Composable
 fun ScreenHomePreview(){
-    val navController = rememberNavController()
-    ScreenHome(navController)
+    ContentHome()
 }
 
 @Composable
