@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -33,15 +31,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.esgnexus.R
 import br.com.esgnexus.components.RadioButtonComponent
-import br.com.esgnexus.ui.theme.WorkSans
 
 @Composable
 fun ScreenLogin(navController: NavController) {
+    Content(navController)
+}
+
+@Composable
+fun Content(navController: NavController?) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -57,7 +59,7 @@ fun ScreenLogin(navController: NavController) {
                 //.background(Color.Gray)
                 .fillMaxWidth()
                 .offset(y = (-80).dp)
-                //.fillMaxSize()
+            //.fillMaxSize()
         ) {
             Image(
                 painter = painterResource(id = R.drawable.logologin),
@@ -155,7 +157,11 @@ fun ScreenLogin(navController: NavController) {
                         bottom = 0.dp
                     ),
                 onClick = {
-                    navController.navigate("ScreenHome")
+                    // Ir para a home caso a senha esteja correta ou
+                    // o usuário se mantenha conectado, salvar a senha localmente criptografada.
+                    // Por baixo dos panos seguira o mesmo fluxo principal mas o usuário não ira precisar
+                    // os dados na home
+                    navController!!.navigate("ScreenHome")
                 },
                 colors = ButtonDefaults.buttonColors(
                     contentColor = Color.White,
@@ -180,7 +186,7 @@ fun ScreenLogin(navController: NavController) {
                         bottom = 0.dp
                     ),
                 onClick = {
-                    navController.navigate("ScreenHome")
+                    navController!!.navigate("ScreenHome")
                 },
                 colors = ButtonDefaults.buttonColors(
                     contentColor = Color(0xff2A933E),
@@ -204,7 +210,7 @@ fun ScreenLogin(navController: NavController) {
                         bottom = 0.dp
                     ),
                 onClick = {
-                    navController.navigate("ScreenHome")
+                    navController!!.navigate("ScreenHome")
                 },
                 colors = ButtonDefaults.buttonColors(
                     contentColor = Color(0xff2A933E),
@@ -231,7 +237,7 @@ fun ScreenLogin(navController: NavController) {
 
                 },
 
-            ) {
+                ) {
                 Text(
                     text = "Ainda não possui cadastro?",
                     color = Color(0xff2A933E)
@@ -241,33 +247,17 @@ fun ScreenLogin(navController: NavController) {
     }
 }
 
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
 @Composable
-fun CompanyTitleLogin(){
-    Row(
-        modifier = Modifier
-            .background(Color(0xff2A933E))
-            .fillMaxWidth()
-    ){
-               // Forgot Your Password
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                // .padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 0.dp)
-                .wrapContentWidth(Alignment.End, true),
-            colors = ButtonDefaults.buttonColors(
-                Color(0xff07510A)
-            ),
+fun GeneratedPreviewer() {
+    // Content Preview
+    Content(null)
 
-            onClick = {
-
-            }
-        ) {
-
-        }
-    }
-
+    // Components Preview
 }
-
 
 // TODO
 
