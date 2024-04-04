@@ -145,16 +145,24 @@ fun ContentHome() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.Yellow)
+                    //.background(Color.Yellow)
 
             ) {
                 LazyRow() {
                     items (homeData.value.recentPosts.size) {
-                        Card (
+                        Card(
                             modifier = Modifier
                                 .size(150.dp, 220.dp)
-                                .background(Color.Black)
-                                .padding(5.dp, 0.dp)
+                                //.background(Color.Black)
+                                .clip(shape = RoundedCornerShape(0.5.dp))
+                                //.border(4.dp,Color.Blue,shape = RoundedCornerShape(2.dp)) sobrescreve o Color.Black definido no background
+                                .padding(5.dp, 0.dp),
+                            border = BorderStroke(1.4.dp, color = Color(0xFF07510A)),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color.White,
+
+                                )
+
 
                         ) {
 
