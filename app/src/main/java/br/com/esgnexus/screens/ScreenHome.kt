@@ -165,7 +165,19 @@ fun ContentHome() {
 
 
                         ) {
+                            Column (
 
+                            ) {
+                                // image
+                                // datePublish
+                                Text(
+                                    text = homeData.value.recentPosts[it].datePost
+                                )
+
+                                Text(
+                                    text = homeData.value.recentPosts[it].description
+                                )
+                            }
                         }
 
                         /* Text (
