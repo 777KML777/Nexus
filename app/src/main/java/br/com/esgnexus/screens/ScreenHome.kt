@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -53,6 +54,7 @@ import br.com.esgnexus.dto.HomeDto
 import br.com.esgnexus.dto.RecentPost
 import br.com.esgnexus.services.Home.RetrofitFactoryHome
 import br.com.esgnexus.ui.theme.NexusTheme
+import org.intellij.lang.annotations.JdkConstants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -65,63 +67,118 @@ fun ScreenHome(navController: NavController) {
                 .fillMaxWidth()
                 .fillMaxHeight()
         ) {
-
-
-
             ContentHome()
         }
     }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun ScreenHomePreview(){
+    ContentHome()
+
+    // Components Preview
+
 }
 
 @Composable
 fun ContentHome() {
 
     var homeData = remember {
-        mutableStateOf(HomeDto(0, listOf(RecentPost("", "", "", ""))))
+        mutableStateOf(
+            HomeDto(
+                0,
+                listOf
+                    (RecentPost(
+                    "",
+                    "",
+                    "",
+                    ""))))
     }
-    var x = HomeDto(0, listOf(RecentPost("", "", "", "")));
+
+    var x = HomeDto(
+        0,
+        listOf(RecentPost(
+            "",
+            "",
+            "",
+            "")));
 
     // request to api
-    var request = RetrofitFactoryHome().homeServiceGetHomeData().homeData(1)
+    var request = RetrofitFactoryHome()
+        .homeServiceGetHomeData()
+        .homeData(1)
+    // {TODO} The above code required change enterpriseId to string variable
 
     request.enqueue(object : Callback<HomeDto> {
-    override fun onResponse(call: Call<HomeDto>, response: Response<HomeDto>) {
+        override fun onResponse(
+            call: Call<HomeDto>,
+            response: Response<HomeDto>) {
 
-    x.enterpriseId = response.body()!!.enterpriseId
-    x.recentPosts = response.body()!!.recentPosts
-
-    homeData.value = x
-
-    }
-
-    override fun onFailure(call: Call<HomeDto>, t: Throwable) {
-    TODO("Not yet implemented")
-    }
-
-
-    })
-
-
-    Column (
-
-    ){
-       Text(
-           text = homeData.value.enterpriseId.toString()
-
-       )
-
-        LazyColumn {
-            items(homeData.value.recentPosts.size) {
-                Text(
-                    text = homeData.value.recentPosts[it].description
-                )
-            }
+            x.enterpriseId = response.body()!!.enterpriseId
+            x.recentPosts = response.body()!!.recentPosts
+            homeData.value = x
         }
 
+        override fun onFailure(
+            call: Call<HomeDto>,
+            t: Throwable) {
+            TODO("Not yet implemented")
+        }
+    })
+
+    // container
+    Column (
+        modifier = Modifier
+            .fillMaxSize(),
+            //.background(Color.Black),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CompanyTitle()
+        MainHeader()
+
+        // RecentPosts()
+        Column(modifier = Modifier
+            .fillMaxWidth()) {
+            SectionTitle("Postagens Recentes", "")
+            Spacer(modifier = Modifier.size(size = 15.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Yellow)
+
+            ) {
+                LazyRow() {
+                    items (homeData.value.recentPosts.size) {
+                        Card (
+                            modifier = Modifier
+                                .size(150.dp, 220.dp)
+                                .background(Color.Black)
+                                .padding(5.dp, 0.dp)
+
+                        ) {
+
+                        }
+
+                        /* Text (
+                            text = homeData.value.recentPosts[it].description
+                        ) */
+                    }
+                }
+                //RecentPostsCard()
+
+                //RecentPostsCard()
+                //RecentPostsCard()
+                //RecentPostsCard()
+            }
+        }
+        Text(
+           text = "homeData.value.enterpriseId.toString()"
+
+       )
     }
 
 }
-
 
 @Composable
 fun CompanyTitle(){
@@ -157,7 +214,6 @@ fun CompanyTitle(){
             )
         }
     }
-
 }
 
 @Composable
@@ -184,7 +240,7 @@ fun MainHeader(){
 }
 
 @Composable
-fun SectionTitle(title: String, option: String){
+fun SectionTitle(title: String, option: String?){
     Row(
         verticalAlignment = Alignment.Bottom,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -196,7 +252,7 @@ fun SectionTitle(title: String, option: String){
             fontSize = 22.sp,
         )
         Text(
-            text = option,
+            text = option!!,
             color = Color(0xff07510A),
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
@@ -239,7 +295,7 @@ fun RecentPostsCard(){
                 modifier = Modifier.padding(10.dp, 3.dp, 7.dp, 0.dp),
                 text = "It was popularised in the 1960s with the" +
                         " release of Letraset sheets containing Lorem",
-                fontSize = 5.sp,
+                fontSize = 12.sp,
                 lineHeight = 9.sp
             )
             Spacer(modifier = Modifier.height(5.dp))
@@ -278,24 +334,6 @@ fun RecentPostsCard(){
 }
 
 @Composable
-fun RecentPosts(){
-    Column(modifier = Modifier
-        .fillMaxWidth()) {
-        SectionTitle("Postagens Recentes", "Ver todos")
-        Spacer(modifier = Modifier.size(size = 15.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            RecentPostsCard()
-            RecentPostsCard()
-            RecentPostsCard()
-            RecentPostsCard()
-        }
-    }
-}
-
-@Composable
 fun DailyChart(day: String, height: Int){
     Column (horizontalAlignment = Alignment.CenterHorizontally){
         Card(modifier = Modifier
@@ -319,21 +357,6 @@ fun WeekChart(){
         DailyChart("S", 150)
         DailyChart("S", 35)
         DailyChart("D", 65)
-    }
-}
-
-@Composable
-fun CompanyStatistics(){
-    Column(modifier = Modifier
-        .fillMaxWidth()) {
-        SectionTitle("Estatística da Empresa", "Histórico")
-        Spacer(modifier = Modifier.size(size = 15.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            WeekChart()
-        }
     }
 }
 
@@ -502,53 +525,6 @@ fun ButtonOptions () {
         }
     }
 }
-
-
-@Composable
-fun OldContent () {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxHeight()
-        ) {
-            CompanyTitle()
-            Spacer(modifier = Modifier.size(size = 35.dp))
-            ButtonOptions()
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(horizontal = 35.dp)
-            ) {
-                MainHeader()
-                Spacer(modifier = Modifier.size(size = 35.dp))
-                RecentPosts()
-                Spacer(modifier = Modifier.size(size = 35.dp))
-                //CompanyStatistics()
-
-
-            }
-            Column (
-                verticalArrangement = Arrangement.Bottom,
-                modifier = Modifier
-                    .fillMaxHeight()
-            ) {
-                Rodape()
-            }
-
-        }
-    }
-}
-
-
-@Preview(showSystemUi = true)
-@Composable
-fun ScreenHomePreview(){
-    ContentHome()
-}
-
 @Composable
 fun Rodape () {
     Row(
@@ -593,3 +569,41 @@ fun Rodape () {
         }
 }
 
+/* @Composable
+fun OldContent () {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxHeight()
+        ) {
+            CompanyTitle()
+            Spacer(modifier = Modifier.size(size = 35.dp))
+            ButtonOptions()
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(horizontal = 35.dp)
+            ) {
+                MainHeader()
+                Spacer(modifier = Modifier.size(size = 35.dp))
+                RecentPosts()
+                Spacer(modifier = Modifier.size(size = 35.dp))
+                //CompanyStatistics()
+
+
+            }
+            Column (
+                verticalArrangement = Arrangement.Bottom,
+                modifier = Modifier
+                    .fillMaxHeight()
+            ) {
+                Rodape()
+            }
+
+        }
+    }
+}
+*/

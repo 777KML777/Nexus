@@ -42,6 +42,15 @@ fun ScreenLogin(navController: NavController) {
     Content(navController)
 }
 
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun GeneratedPreviewer() {
+    // Content Preview
+    Content(null)
+
+    // Components Preview
+}
+
 @Composable
 fun Content(navController: NavController?) {
     Box(
@@ -245,18 +254,6 @@ fun Content(navController: NavController?) {
             }
         }
     }
-}
-
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun GeneratedPreviewer() {
-    // Content Preview
-    Content(null)
-
-    // Components Preview
 }
 
 // TODO
