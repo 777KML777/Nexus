@@ -7,6 +7,6 @@ import retrofit2.http.Path
 
 interface HomeService {
     @GET("home/{idEnterprise}")
-    fun homeData(@Path("idEnterprise") enterpriseId: Int): Call<HomeDto>
+    fun homeData(@Path("idEnterprise") enterpriseId: String): Call<HomeDto>
 
 }

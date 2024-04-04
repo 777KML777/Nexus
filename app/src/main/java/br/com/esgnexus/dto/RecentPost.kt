@@ -3,9 +3,9 @@ package br.com.esgnexus.dto
 import java.util.Date
 
 data class RecentPost(
-    // var id: Long,
+    var id: String,
     var datePost: String,
     var description: String,
-    var imagePost: String,
-    var userPhoto: String
+    var image: String,
+    // var userPhoto: String
 )

@@ -1,5 +1,6 @@
 package br.com.esgnexus.screens
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -86,46 +87,54 @@ fun ContentHome() {
 
     var homeData = remember {
         mutableStateOf(
-            HomeDto(
-                0,
                 listOf
                     (RecentPost(
                     "",
                     "",
                     "",
-                    ""))))
+                    ""
+                    //""
+                    )))
     }
 
     var x = HomeDto(
-        0,
+//        "",
         listOf(RecentPost(
             "",
             "",
             "",
-            "")));
+            ""
+//            ""
+        )));
 
-    // request to api
-    var request = RetrofitFactoryHome()
-        .homeServiceGetHomeData()
-        .homeData(1)
-    // {TODO} The above code required change enterpriseId to string variable
 
-    request.enqueue(object : Callback<HomeDto> {
-        override fun onResponse(
-            call: Call<HomeDto>,
-            response: Response<HomeDto>) {
+        // request to api
+        var request = RetrofitFactoryHome()
+            .homeServiceGetHomeData()
+            .homeData("6628c931-7383-4804-ad7c-e655c77bde0e")
+        // {TODO} The above code required change enterpriseId to string variable
 
-            x.enterpriseId = response.body()!!.enterpriseId
-            x.recentPosts = response.body()!!.recentPosts
-            homeData.value = x
-        }
+        Log.e("Passei da Def", "Irei enfileirar")
+        // error("Irei Enfileirar")
 
-        override fun onFailure(
-            call: Call<HomeDto>,
-            t: Throwable) {
-            TODO("Not yet implemented")
-        }
-    })
+        request.enqueue(object : Callback<HomeDto> {
+            override fun onResponse(
+                call: Call<HomeDto>,
+                response: Response<HomeDto>) {
+                // x.enterpriseId = response.body()!!.enterpriseId
+                var x = response.body()!!.recentPosts
+
+                homeData.value = x
+
+            }
+
+            override fun onFailure(
+                call: Call<HomeDto>,
+                t: Throwable) {
+                error(t.message.toString())
+            }
+        })
+
 
     // container
     Column (
@@ -149,7 +158,7 @@ fun ContentHome() {
 
             ) {
                 LazyRow() {
-                    items (homeData.value.recentPosts.size) {
+                    items (homeData.value.size) {
                         Card(
                             modifier = Modifier
                                 .size(150.dp, 220.dp)
@@ -171,11 +180,11 @@ fun ContentHome() {
                                 // image
                                 // datePublish
                                 Text(
-                                    text = homeData.value.recentPosts[it].datePost
+                                    text =  homeData.value[it].datePost
                                 )
 
                                 Text(
-                                    text = homeData.value.recentPosts[it].description
+                                    text = homeData.value[it].description
                                 )
                             }
                         }
