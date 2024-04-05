@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -55,10 +55,13 @@ import br.com.esgnexus.dto.HomeDto
 import br.com.esgnexus.dto.RecentPost
 import br.com.esgnexus.services.Home.RetrofitFactoryHome
 import br.com.esgnexus.ui.theme.NexusTheme
-import org.intellij.lang.annotations.JdkConstants
+import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun ScreenHome(navController: NavController) {
@@ -114,7 +117,8 @@ fun ContentHome() {
             .homeData("6628c931-7383-4804-ad7c-e655c77bde0e")
         // {TODO} The above code required change enterpriseId to string variable
 
-        Log.e("Passei da Def", "Irei enfileirar")
+        val teste = "2024-04-04T16:13:22.834Z"
+        Log.e("TESTE SUB STRING", teste.substring(0, teste.length / 2).removeRange(10, 12))
         // error("Irei Enfileirar")
 
         request.enqueue(object : Callback<HomeDto> {
@@ -175,17 +179,36 @@ fun ContentHome() {
 
                         ) {
                             Column (
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+
 
                             ) {
-                                // image
-                                // datePublish
-                                Text(
-                                    text =  homeData.value[it].datePost
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(70.dp)
+                                        .padding(5.dp)
+                                ) {
+                                // Image. The extension on final is gambiarra
+                                AsyncImage(
+                                    model = homeData.value[it].image + ".jpeg",
+                                    //model = "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+                                    contentDescription = "",
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier
+                                        .fillMaxSize()
                                 )
+                            }
+
+                                // datePublish
+
+
+                            DataFormatted(homeData.value[it].datePost)
 
                                 Text(
                                     text = homeData.value[it].description
-                                )
+                                 )
                             }
                         }
 
@@ -201,14 +224,36 @@ fun ContentHome() {
                 //RecentPostsCard()
             }
         }
-        Text(
-           text = "homeData.value.enterpriseId.toString()"
-
-       )
     }
 
 }
 
+@Composable
+fun DataFormatted2(dataString: String) {
+    var i = remember {
+         mutableStateOf("")
+    }
+
+    i.value = dataString
+
+    val x = dataString.split("-")
+    i.value = x[1]+"/"+x[2]
+
+    Column {
+        Text(text = i.value)
+    }
+}
+
+@Composable
+fun DataFormatted(dataString: String) {
+    if(dataString.isNotEmpty()) {
+        val formatoEntrada = DateTimeFormatter.ISO_DATE_TIME
+        val formatoSaida = DateTimeFormatter.ofPattern("dd/MM")
+        val data = LocalDateTime.parse(dataString, formatoEntrada)
+        val diaMesFormatado = data.format(formatoSaida)
+        Text(text = diaMesFormatado)
+    }
+}
 @Composable
 fun CompanyTitle(){
     Row(

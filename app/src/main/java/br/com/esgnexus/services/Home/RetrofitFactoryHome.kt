@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitFactoryHome {
     // private val URL_BASE = "https://nexus-api-henna.vercel.app/"
-    private val URL_BASE = "http://ip-da-maquina:3333/"
+    private val URL_BASE = "http://seu-ip:3333/"
     // private val URL_BASE = "https://nexus-api-henna.vercel.app/"
     private val retrofitFactory = Retrofit
         .Builder()
