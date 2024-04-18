@@ -114,7 +114,8 @@ fun ContentHome() {
         // request to api
         var request = RetrofitFactoryHome()
             .homeServiceGetHomeData()
-            .homeData("6628c931-7383-4804-ad7c-e655c77bde0e")
+            // .homeData("6628c931-7383-4804-ad7c-e655c77bde0e") If for local database
+            .homeData("9332b5dc-b2b0-47a0-81c5-63041adf544c")
         // {TODO} The above code required change enterpriseId to string variable
 
         val teste = "2024-04-04T16:13:22.834Z"
@@ -224,6 +225,8 @@ fun ContentHome() {
                 //RecentPostsCard()
             }
         }
+
+        Rodape()
     }
 
 }
