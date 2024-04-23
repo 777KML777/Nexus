@@ -146,14 +146,18 @@ fun ContentHome() {
         modifier = Modifier
             .fillMaxSize(),
             //.background(Color.Black),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceAround
+
     ) {
         CompanyTitle()
         MainHeader()
 
         // RecentPosts()
         Column(modifier = Modifier
-            .fillMaxWidth()) {
+            .fillMaxWidth()
+            // .background(Color.Blue)
+        ) {
             SectionTitle("Postagens Recentes", "")
             Spacer(modifier = Modifier.size(size = 15.dp))
             Row(
@@ -228,7 +232,7 @@ fun ContentHome() {
 
         Rodape()
     }
-
+    //Rodape()
 }
 
 @Composable
